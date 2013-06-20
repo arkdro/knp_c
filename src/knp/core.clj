@@ -32,7 +32,7 @@
         size-line (first lines)
         data-lines (rest lines)
         [n-items capacity] (parse-size-line size-line)
-        items (parse-data-lines data-lines)
+        items (vec (parse-data-lines data-lines))
         cnt-lines (count data-lines)
         cnt-items (count items)
         ]
