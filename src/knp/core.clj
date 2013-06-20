@@ -1,21 +1,44 @@
 (ns knp.core
   {:doc "knapsack"}
   (:use [clojure.tools.cli :only [cli]])
-  (:require knp.dim)
+  (:require clojure.string)
   (:use clojure.tools.trace)
+  (:require knp.dim)
   (:gen-class)
   )
 
 ;; (trace-ns 'knp.dim)
+
+(def regex #"(\d+)\s+(\d+)")
+
+(defn parse-line [line]
+  (let [[_ n1 n2] (re-find regex line)]
+    [n1 n2]))
+
+(defn parse-size-line [size-line]
+  (parse-line size-line))
+
+(defn valid-item [[n1 n2]]
+  (and
+   (not (= n1 nil))
+   (not (= n2 nil))))
+
+(defn parse-data-lines [lines]
+  (filter valid-item (map parse-line lines)))
 
 (defn get-data [fname]
   (let [text (slurp fname)
         lines (clojure.string/split-lines text)
         size-line (first lines)
         data-lines (rest lines)
-        finished ()
+        [n-items capacity] (parse-size-line size-line)
+        items (parse-data-lines data-lines)
+        cnt-lines (count data-lines)
+        cnt-items (count items)
         ]
-    finished))
+    (assert (= cnt-lines cnt-items) "data items not equal data lines")
+    {:n n-items :c capacity :items items}
+    ))
 
 (defn -main [& args]
   (let [opts (cli
