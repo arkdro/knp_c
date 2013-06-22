@@ -12,8 +12,10 @@
 (def regex #"(\d+)\s+(\d+)")
 
 (defn parse-line [line]
-  (let [[_ s1 s2] (re-find regex line)]
-    [(Integer. s1) (Integer. s2)]))
+  (let [[_ s1 s2] (re-find regex line)
+        data (filter #(not (nil? %)) [s1 s2])
+        [d1 d2] (map #(Integer. %) data)]
+    [d1 d2]))
 
 (defn parse-size-line [size-line]
   (parse-line size-line))
