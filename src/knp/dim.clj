@@ -70,7 +70,8 @@
 
 (defn iter-items [c items]
   (let [item-idx 0
-        table (int-array (* c items) (repeat 0))]
+        size (* c (count items))
+        table (vec (take size (repeat 0)))]
     (iter-items-aux c item-idx items table)))
 
 ;; {:n n-items :c capacity :items items}
