@@ -50,3 +50,33 @@
         ]
     (is (= exp act))))
 
+(deftest choose-and-set-items-test-1
+  (let [cur-c 4
+        item-idx 3
+        c 4
+        items [[8 2] [10 2] [15 3] [4 1]]
+        table [1 2 2 2 ;; this table looks transposed (x, y axis changed)
+               1 2 5 15
+               0 0 0 0]
+        act (choose-and-set-items cur-c item-idx table c items)
+        exp [1 2 2 2 ;; this table looks transposed (x, y axis changed)
+             1 2 5 15
+             0 0 0 16]
+        ]
+    (is (= exp act))))
+
+(deftest choose-and-set-items-test-2
+  (let [cur-c 4
+        item-idx 3
+        c 4
+        items [[8 2] [10 2] [15 3] [4 1]]
+        table [1 2 2 2 ;; this table looks transposed (x, y axis changed)
+               1 2 5 17
+               0 0 0 0]
+        act (choose-and-set-items cur-c item-idx table c items)
+        exp [1 2 2 2 ;; this table looks transposed (x, y axis changed)
+             1 2 5 17
+             0 0 0 17]
+        ]
+    (is (= exp act))))
+
