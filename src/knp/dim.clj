@@ -40,7 +40,7 @@
         val (get-point prev-x cur-y c table)]
     (set-point cur-x cur-y c val table)))
 
-(defn choose-and-set-items [cur-c item-idx table c items]
+(defn choose-and-set-items [cur-c c item-idx items table]
   (let [[val wei] (get-item item-idx items)
         [prev1 prev2] (get-prev-total-vals cur-c c item-idx wei table)
         new-sum-val (+ val prev1)]
@@ -54,7 +54,7 @@
 
 (defn update-table [cur-c c item-idx items table]
   (if (use-item item-idx c items)
-    (choose-and-set-items cur-c item-idx table c items)
+    (choose-and-set-items cur-c c item-idx items table)
     table))
 
 (defn iter-one-item-aux [cur-c c item-idx items table]

@@ -58,7 +58,7 @@
         table [1 2 2 2 ;; this table looks transposed (x, y axis changed)
                1 2 5 15
                0 0 0 0]
-        act (choose-and-set-items cur-c item-idx table c items)
+        act (choose-and-set-items cur-c c item-idx items table)
         exp [1 2 2 2 ;; this table looks transposed (x, y axis changed)
              1 2 5 15
              0 0 0 16]
@@ -73,7 +73,7 @@
         table [1 2 2 2 ;; this table looks transposed (x, y axis changed)
                1 2 5 17
                0 0 0 0]
-        act (choose-and-set-items cur-c item-idx table c items)
+        act (choose-and-set-items cur-c c item-idx items table)
         exp [1 2 2 2 ;; this table looks transposed (x, y axis changed)
              1 2 5 17
              0 0 0 17]
