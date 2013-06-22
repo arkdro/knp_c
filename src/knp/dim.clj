@@ -1,30 +1,79 @@
-(ns knp.dim)
+(ns knp.dim
+  (:require knp.misc)
+  )
 
-(defn choose-set-items [cur-c item-idx table c items]
+(defn get-point [x y height table]
+  (let [idx (+ (* x height) y)]
+    (get table idx)))
+
+(defn set-point [x y height val table]
+  (let [idx (+ (* x height) y)]
+    (assoc table idx val)))
+
+(defn get-prev-total-vals [cur-c c item-idx wei table]
+  (cond (= item-idx 0) [0 0]
+        (= cur-c 0) [0 0]
+        :default (let [
+                       prev-x (dec item-idx)
+                       prev-y1 (- cur-c wei)
+                       prev-y2 cur-c
+                       p1 (get-point prev-x prev-y1 c table)
+                       p2 (get-point prev-x prev-y2 c table)
+                       ]
+                   [p1 p2])))
+
+(defn set-new-val [cur-c c item-idx val table]
+  (set-point item-idx cur-c c val table))
+
+(defn copy-prev-val [cur-y cur-x c table]
+  (let [prev-x (dec cur-x)
+        val (get-point prev-x cur-y c table)]
+    (set-point cur-x cur-y c val table)))
+
+(defn choose-and-set-items [cur-c item-idx table c items]
   (let [[val wei] (get items item-idx)
-        [prev1 prev2] (get-prev-total-vals cur-c item-idx wei table)
+        [prev1 prev2] (get-prev-total-vals cur-c c item-idx wei table)
         new-sum-val (+ val prev1)]
-    (if (> prev2 new-sum-val) (copy-prev-val cur-c item-idx table)
-        (set-new-val cur-c item-idx table new-sum-val))))
+    (if (< prev2 new-sum-val)
+      (set-new-val cur-c c item-idx new-sum-val table)
+      (copy-prev-val cur-c item-idx c table))))
+
+(defn use-item [item-idx c items]
+  (let [[_ wei] (get items item-idx)]
+    (not (> wei c))))
 
 (defn update-table [cur-c item-idx table c items]
-  (if (use-item item-idx items)
-    (choose-set-items cur-c item-idx table c items)
+  (if (use-item item-idx c items)
+    (choose-and-set-items cur-c item-idx table c items)
     table))
 
-(defn iter-one-item-aux [cur-c item-idx table c items]
+(defn iter-one-item-aux [cur-c c item-idx items table]
   (if (> cur-c c) table
       (let [new-table (update-table cur-c item-idx table c items)]
-        (recur (inc cur-c) item-idx new-table c items))))
+        (recur (inc cur-c) c item-idx items new-table))))
 
-(defn iter-one-item [c items]
-  (let [cur-c 0
-        item-idx 0
-        table 
-        ]
-    (iter-one-item-aux cur-c item-idx table c items)))
+(defn iter-one-item [c item-idx items table]
+  (let [cur-c 0]
+    (iter-one-item-aux cur-c c item-idx items table)))
+
+(defn iter-items-aux [c item-idx items table]
+  (if (> item-idx (count items)) table
+      (let [new-table (iter-one-item c item-idx items table)]
+        (recur c (inc item-idx) items new-table))))
+
+(defn iter-items [c items]
+  (let [item-idx 0
+        table (int-array (* c items) (repeat 0))]
+    (iter-items-aux c item-idx items table)))
 
 ;; {:n n-items :c capacity :items items}
-(defn calc [data]
+(defn calc [{n-items :n
+             capacity :c
+             items :items
+             :as data}]
+  (let [opt (knp.misc/get-optimum capacity items)
+        ;; table (iter-items capacity items)
+        ]
+    opt)
   )
 
