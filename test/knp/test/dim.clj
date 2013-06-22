@@ -80,3 +80,12 @@
         ]
     (is (= exp act))))
 
+(deftest use-item-test
+  (let [c 2
+        items [[8 2] [10 2] [15 3] [4 1]]]
+    (is (= 'true (use-item 1 c items)))
+    (is (= 'true (use-item 2 c items)))
+    (is (= 'false (use-item 3 c items)))
+    (is (= 'true (use-item 4 c items)))
+    ))
+
