@@ -2,12 +2,19 @@
   (:require knp.misc)
   )
 
+;; items and capacity are numbered from 1.
+;; coordinates are (transparently) numbered from 0.
+
 (defn get-point [x y height table]
-  (let [idx (+ (* x height) y)]
+  (let [x-idx (dec x)
+        y-idx (dec y)
+        idx (+ (* x-idx height) y-idx)]
     (get table idx)))
 
 (defn set-point [x y height val table]
-  (let [idx (+ (* x height) y)]
+  (let [x-idx (dec x)
+        y-idx (dec y)
+        idx (+ (* x-idx height) y-idx)]
     (assoc table idx val)))
 
 (defn get-prev-total-vals [cur-c c item-idx wei table]
