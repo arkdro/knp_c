@@ -36,4 +36,17 @@
     (is (= exp act)))
   )
 
+(deftest copy-prev-val-test
+  (let [cur-y 2
+        cur-x 3
+        c 3
+        table [1 1 1 ;; this table looks transposed (x, y axis changed)
+               1 5 24
+               0 0 0]
+        act (copy-prev-val cur-y cur-x c table)
+        exp [1 1 1 ;; this table looks transposed (x, y axis changed)
+             1 5 24
+             0 5 0]
+        ]
+    (is (= exp act))))
 
