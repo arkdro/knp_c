@@ -52,14 +52,14 @@
   (let [[_ wei] (get-item item-idx items)]
     (not (> wei c))))
 
-(defn update-table [cur-c item-idx table c items]
+(defn update-table [cur-c c item-idx items table]
   (if (use-item item-idx c items)
     (choose-and-set-items cur-c item-idx table c items)
     table))
 
 (defn iter-one-item-aux [cur-c c item-idx items table]
   (if (> cur-c c) table
-      (let [new-table (update-table cur-c item-idx table c items)]
+      (let [new-table (update-table cur-c c item-idx items table)]
         (recur (inc cur-c) c item-idx items new-table))))
 
 (defn iter-one-item [c item-idx items table]
