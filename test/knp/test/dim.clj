@@ -92,3 +92,27 @@
     (is (= 'true (use-item 4 c items)))
     ))
 
+(deftest iter-one-item-test
+  (let [c 7
+        h c
+        w 4
+        item-idx 4
+        items [[16 2] [19 3] [23 4] [28 5]]
+        ;; this table looks transposed (x, y axis changed)
+        table [
+               0 16 16 16 16 16 16
+               0 16 19 19 35 35 35
+               0 16 19 23 35 39 42
+               0  0  0  0  0  0  0
+               ]
+        act (iter-one-item c item-idx items table)
+        exp [
+             0 16 16 16 16 16 16
+             0 16 19 19 35 35 35
+             0 16 19 23 35 39 42
+             0 16 19 23 35 39 44
+             ]
+        ]
+    (is (= exp act)))
+  )
+
