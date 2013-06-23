@@ -44,8 +44,17 @@
 
 (defn call-calc [verbose data]
   (if verbose
-    (time (knp.dim/calc data))
+    (binding [*out* *err*]
+      (time (knp.dim/calc data)))
     (knp.dim/calc data)))
+
+(defn print-result [{:keys [opt val used-items]}]
+  (if (= opt val) (println val "1")
+      (println val "0"))
+  (let [])
+  (doseq [x used-items]
+    (print x ""))
+  (println ""))
 
 (defn -main [& args]
   (let [opts (cli
@@ -53,9 +62,8 @@
               ["-v" "--[no-]verbose" :default false]
               ["-f" "--file" "input file"])
         [options _ _] opts
-        _ (println "options:" options)
         data (get-data (:file options))
         res (call-calc (:verbose options) data)
         ]
-    (println "res:" res)))
+    (print-result res)))
 
