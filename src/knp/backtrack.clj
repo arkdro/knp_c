@@ -35,7 +35,7 @@
 (defn backtrack [capacity items table]
   (let [x (count items)
         y capacity
-        acc (vec (take (* x y) (repeat 0)))]
+        acc (vec (take x (repeat 0)))]
     (backtrack-aux y capacity x items acc table)
     )
   )
