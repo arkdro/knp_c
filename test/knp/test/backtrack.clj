@@ -43,3 +43,17 @@
         ]
     (is (= exp act))))
 
+(deftest backtrack-test
+  (let [c 7
+        items [[16 2] [19 3] [23 4] [28 5]]
+        table [
+               0 16 16 16 16 16 16
+               0 16 19 19 35 35 35
+               0 16 19 23 35 39 42
+               0 16 19 23 35 39 44
+               ]
+        act (backtrack c items table)
+        exp [1 0 0 1]
+        ]
+    (is (= exp act))))
+
