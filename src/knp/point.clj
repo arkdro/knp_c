@@ -1,7 +1,6 @@
-(ns knp.point)
-
-;; items and capacity are numbered from 1.
-;; coordinates are (transparently) numbered from 0.
+(ns knp.point
+  (:use [taoensso.timbre.profiling :as profiling :refer (p profile)])
+  )
 
 (defn get-point [x y height table]
   (let [x-idx (dec x)
