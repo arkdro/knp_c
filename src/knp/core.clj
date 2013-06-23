@@ -4,6 +4,7 @@
   (:require clojure.string)
   (:use clojure.tools.trace)
   (:require knp.dim)
+  (:require knp.misc)
   (:gen-class)
   )
 
@@ -44,7 +45,7 @@
 
 (defn call-calc [verbose data]
   (if verbose
-    (binding [*out* *err*]
+    (binding [*out* *err* knp.misc/*verbose* 'true]
       (time (knp.dim/calc data)))
     (knp.dim/calc data)))
 

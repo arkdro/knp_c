@@ -1,8 +1,13 @@
 (ns knp.dim
   (:require knp.backtrack)
   (:require knp.opt)
+  (:require knp.misc)
   (:require knp.point)
   )
+
+(defn log-val [tag & val]
+  (if-not knp.misc/*verbose* nil
+          (println (.toString (java.util.Date.)) tag val)))
 
 (defn get-prev-total-vals [cur-c c item-idx wei table]
   (cond (= item-idx 0) [0 0]
