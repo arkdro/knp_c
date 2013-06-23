@@ -1,6 +1,10 @@
 (ns knp.test.backtrack
   (:use knp.backtrack)
+  (:use clojure.tools.trace)
   (:use clojure.test))
+
+;; (trace-ns 'knp.backtrack)
+;; (trace-ns 'knp.point)
 
 (deftest do-not-use-item-test
   (let [cur-c 2

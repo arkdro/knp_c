@@ -5,6 +5,7 @@
   (:use [clojure.test]))
 
 ;; (trace-ns 'knp.dim)
+;; (trace-ns 'knp.point)
 
 (deftest get-point-test
   (let [h 3
