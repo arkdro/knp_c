@@ -21,6 +21,11 @@
 
 (defn get-item [idx1 items]
   (let [idx (dec idx1)]
-    (if (< idx 0) (assert false "idx smaller than 0")
+    (if (< idx 0) (assert false "get idx smaller than 0")
         (get items idx))))
+
+(defn set-item [items idx1 val]
+  (let [idx (dec idx1)]
+    (if (< idx 0) (assert false "set idx smaller than 0")
+        (assoc items idx val))))
 
