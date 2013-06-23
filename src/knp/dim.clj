@@ -61,14 +61,20 @@
         table (vec (take size (repeat 0)))]
     (iter-items-aux c item-idx items table)))
 
+(defn get-max-value [n-items capacity table]
+  (knp.point/get-point n-items capacity capacity table))
+
 ;; {:n n-items :c capacity :items items}
 (defn calc [{n-items :n
              capacity :c
              items :items
              :as data}]
   (let [opt (knp.opt/get-optimum capacity items)
-        ;; table (iter-items capacity items)
+        table (iter-items capacity items)
+        used-items (knp.backtrack/backtrack capacity items table)
         ]
-    opt)
+    {:opt (float opt)
+     :val (get-max-value n-items capacity table)
+     :used-items used-items})
   )
 
