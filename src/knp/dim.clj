@@ -1,4 +1,5 @@
 (ns knp.dim
+  (:require knp.backtrack)
   (:require knp.opt)
   (:require knp.point)
   )
