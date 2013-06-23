@@ -56,6 +56,7 @@
     (iter-one-item-aux cur-c c item-idx items table)))
 
 (defn iter-items-aux [c item-idx items table]
+  (log-val "iter-items-aux" item-idx)
   (if (> item-idx (count items)) table
       (let [new-table (iter-one-item c item-idx items table)]
         (recur c (inc item-idx) items new-table))))
@@ -63,7 +64,8 @@
 (defn iter-items [c items]
   (let [item-idx 1
         size (* c (count items))
-        table (vec (take size (repeat 0)))]
+        table (vec (take size (repeat (int 0))))]
+    (log-val "iter-items table filled")
     (iter-items-aux c item-idx items table)))
 
 (defn get-max-value [n-items capacity table]
@@ -75,7 +77,9 @@
              items :items
              :as data}]
   (let [opt (knp.opt/get-optimum capacity items)
+        _ (log-val "opt" (float opt))
         table (iter-items capacity items)
+        _ (log-val "table done")
         used-items (knp.backtrack/backtrack capacity items table)
         ]
     {:opt (float opt)
