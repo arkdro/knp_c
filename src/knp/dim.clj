@@ -1,25 +1,7 @@
 (ns knp.dim
   (:require knp.opt)
+  (:require knp.point)
   )
-
-;; items and capacity are numbered from 1.
-;; coordinates are (transparently) numbered from 0.
-
-(defn get-point [x y height table]
-  (let [x-idx (dec x)
-        y-idx (dec y)]
-    (cond (< x-idx 0) 0
-          (< y-idx 0) 0
-          :default (let [idx (+ (* x-idx height) y-idx)]
-                     (get table idx)))))
-
-(defn set-point [x y height val table]
-  (let [x-idx (dec x)
-        y-idx (dec y)]
-    (cond (< x-idx 0) (assert false "x-idx smaller than 0")
-          (< y-idx 0) (assert false "y-idx smaller than 0")
-          :default (let [idx (+ (* x-idx height) y-idx)]
-                     (assoc table idx val)))))
 
 (defn get-item [idx items]
   (get items (dec idx)))
@@ -31,18 +13,18 @@
                        prev-x (dec item-idx)
                        prev-y1 (- cur-c wei)
                        prev-y2 cur-c
-                       p1 (get-point prev-x prev-y1 c table)
-                       p2 (get-point prev-x prev-y2 c table)
+                       p1 (knp.point/get-point prev-x prev-y1 c table)
+                       p2 (knp.point/get-point prev-x prev-y2 c table)
                        ]
                    [p1 p2])))
 
 (defn set-new-val [cur-c c item-idx val table]
-  (set-point item-idx cur-c c val table))
+  (knp.point/set-point item-idx cur-c c val table))
 
 (defn copy-prev-val [cur-y cur-x c table]
   (let [prev-x (dec cur-x)
-        val (get-point prev-x cur-y c table)]
-    (set-point cur-x cur-y c val table)))
+        val (knp.point/get-point prev-x cur-y c table)]
+    (knp.point/set-point cur-x cur-y c val table)))
 
 (defn choose-and-set-items [cur-c c item-idx items table]
   (let [[val wei] (get-item item-idx items)

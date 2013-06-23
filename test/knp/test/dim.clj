@@ -1,6 +1,7 @@
 (ns knp.test.dim
   (:use clojure.tools.trace)
   (:use [knp.dim])
+  (:require [knp.point])
   (:use [clojure.test]))
 
 ;; (trace-ns 'knp.dim)
@@ -9,7 +10,7 @@
   (let [h 3
         w 2
         table (int-array (* w h) (repeat 1))
-        act (get-point 1 2 h table)
+        act (knp.point/get-point 1 2 h table)
         ]
     (is (= act 1))))
 
@@ -20,7 +21,7 @@
         y 3
         val 24
         table (vec (take (* w h) (repeat 1)))
-        act (set-point x y h val table)
+        act (knp.point/set-point x y h val table)
         exp [1 1 1 1 1 24]
         ]
     (is (= exp act))))
