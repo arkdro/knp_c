@@ -11,7 +11,7 @@
   (let [h 3
         w 2
         column (vec (take h (repeat (int 1))))
-        table (vec (take width (repeat column)))
+        table (vec (take w (repeat column)))
         act (knp.point/get-point 1 2 h table)
         ]
     (is (= act 1))))
