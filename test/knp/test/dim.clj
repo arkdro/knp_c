@@ -116,3 +116,16 @@
     (is (= exp act)))
   )
 
+(deftest iter-items-test
+  (let [c 7
+        items [[16 2] [19 3] [23 4] [28 5]]
+        act (iter-items c items)
+        exp [
+             0 16 16 16 16 16 16
+             0 16 19 19 35 35 35
+             0 16 19 23 35 39 42
+             0 16 19 23 35 39 44
+             ]
+        ]
+    (is (= exp act))))
+
