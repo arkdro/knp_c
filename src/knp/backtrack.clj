@@ -21,10 +21,7 @@
         prev2-val (knp.point/get-point (dec item-idx) cur-c c table)
         ]
     (if (= cur-val prev2-val) (do-not-use-item cur-c item-idx acc)
-        (use-item cur-c c item-idx items acc)
-        )
-    )
-  )
+        (use-item cur-c c item-idx items acc))))
 
 (defn backtrack-aux [cur-c c item-idx items acc table]
   (if (< item-idx 1) acc
@@ -36,7 +33,5 @@
   (let [x (count items)
         y capacity
         acc (vec (take x (repeat 0)))]
-    (backtrack-aux y capacity x items acc table)
-    )
-  )
+    (backtrack-aux y capacity x items acc table)))
 
