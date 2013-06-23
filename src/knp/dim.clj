@@ -7,15 +7,19 @@
 
 (defn get-point [x y height table]
   (let [x-idx (dec x)
-        y-idx (dec y)
-        idx (+ (* x-idx height) y-idx)]
-    (get table idx)))
+        y-idx (dec y)]
+    (cond (< x-idx 0) 0
+          (< y-idx 0) 0
+          :default (let [idx (+ (* x-idx height) y-idx)]
+                     (get table idx)))))
 
 (defn set-point [x y height val table]
   (let [x-idx (dec x)
-        y-idx (dec y)
-        idx (+ (* x-idx height) y-idx)]
-    (assoc table idx val)))
+        y-idx (dec y)]
+    (cond (< x-idx 0) (assert false "x-idx smaller than 0")
+          (< y-idx 0) (assert false "y-idx smaller than 0")
+          :default (let [idx (+ (* x-idx height) y-idx)]
+                     (assoc table idx val)))))
 
 (defn get-item [idx items]
   (get items (dec idx)))
@@ -63,7 +67,7 @@
         (recur (inc cur-c) c item-idx items new-table))))
 
 (defn iter-one-item [c item-idx items table]
-  (let [cur-c 0]
+  (let [cur-c 1]
     (iter-one-item-aux cur-c c item-idx items table)))
 
 (defn iter-items-aux [c item-idx items table]
@@ -72,7 +76,7 @@
         (recur c (inc item-idx) items new-table))))
 
 (defn iter-items [c items]
-  (let [item-idx 0
+  (let [item-idx 1
         size (* c (count items))
         table (vec (take size (repeat 0)))]
     (iter-items-aux c item-idx items table)))
