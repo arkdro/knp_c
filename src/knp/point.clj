@@ -2,6 +2,8 @@
   (:use [taoensso.timbre.profiling :as profiling :refer (p profile)])
   )
 
+(set! *warn-on-reflection* true)
+
 (defn get-point [x y height table]
     (cond (< x 0) 0
           (< y 0) 0
