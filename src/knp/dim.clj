@@ -71,7 +71,7 @@
     (iter-items-aux c item-idx items table)))
 
 (defn get-max-value [n-items capacity table]
-  (knp.point/get-point n-items capacity capacity table))
+  (knp.point/get-point (dec n-items) (dec capacity) capacity table))
 
 ;; {:n n-items :c capacity :items items}
 (defn calc [{n-items :n
