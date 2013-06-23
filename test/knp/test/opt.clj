@@ -1,5 +1,5 @@
-(ns knp.test.misc
-  (:use [knp.misc])
+(ns knp.test.opt
+  (:use [knp.opt])
   (:use [clojure.test]))
 
 (deftest get-optimum-test

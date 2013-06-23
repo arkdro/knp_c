@@ -1,4 +1,4 @@
-(ns knp.misc)
+(ns knp.opt)
 
 (defn get-density [[val wei]]
   (/ val wei))
