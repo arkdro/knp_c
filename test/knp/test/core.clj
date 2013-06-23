@@ -2,7 +2,7 @@
   (:use [knp.core])
   (:use [clojure.test]))
 
-(deftest get-point-test
+(deftest parse-line-test
   (let [
         line1 "11264 10483"
         act1 (knp.core/parse-line line1)
