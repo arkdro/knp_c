@@ -4,14 +4,14 @@
 
 (defn do-not-use-item [cur-c item-idx acc]
   (let [new-item-idx (dec item-idx)
-        new-acc (assoc acc item-idx 0)]
+        new-acc (knp.point/set-item acc item-idx 0)]
     [new-item-idx cur-c new-acc]))
 
 (defn use-item [cur-c c item-idx items acc]
   (let [[_ wei] (knp.point/get-item item-idx items)
         new-item-idx (dec item-idx)
         new-cur-c (- cur-c wei)
-        new-acc (assoc acc item-idx 1)
+        new-acc (knp.point/set-item acc item-idx 1)
         ]
     [new-item-idx new-cur-c new-acc]))
 
