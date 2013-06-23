@@ -19,3 +19,8 @@
           :default (let [idx (+ (* x-idx height) y-idx)]
                      (assoc table idx val)))))
 
+(defn get-item [idx1 items]
+  (let [idx (dec idx1)]
+    (if (< idx 0) (assert false "idx smaller than 0")
+        (get items (dec idx)))))
+

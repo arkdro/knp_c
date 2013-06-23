@@ -3,9 +3,6 @@
   (:require knp.point)
   )
 
-(defn get-item [idx items]
-  (get items (dec idx)))
-
 (defn get-prev-total-vals [cur-c c item-idx wei table]
   (cond (= item-idx 0) [0 0]
         (= cur-c 0) [0 0]
