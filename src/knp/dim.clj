@@ -1,5 +1,5 @@
 (ns knp.dim
-  (:require knp.misc)
+  (:require knp.opt)
   )
 
 ;; items and capacity are numbered from 1.
@@ -86,7 +86,7 @@
              capacity :c
              items :items
              :as data}]
-  (let [opt (knp.misc/get-optimum capacity items)
+  (let [opt (knp.opt/get-optimum capacity items)
         ;; table (iter-items capacity items)
         ]
     opt)
