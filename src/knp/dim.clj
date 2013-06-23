@@ -12,7 +12,7 @@
 
 (defn get-prev-total-vals [cur-c c item-idx wei table]
   (cond (= item-idx 0) [0 0]
-        (= cur-c 0) [0 0]
+        (< cur-c 0) [0 0]
         :default (let [
                        prev-x (dec item-idx)
                        prev-y1 (- cur-c wei)
@@ -40,7 +40,7 @@
 
 (defn use-item [item-idx c items]
   (let [[_ wei] (knp.point/get-item item-idx items)]
-    (not (> wei c))))
+    (not (> wei (inc c))))) ;; c is zero based
 
 (defn update-table [cur-c c item-idx items table]
   (if (use-item item-idx cur-c items)
@@ -48,24 +48,25 @@
     (copy-prev-val cur-c item-idx c table)))
 
 (defn iter-one-item-aux [cur-c c item-idx items table]
-  (if (> cur-c c) table
+  (if (>= cur-c c) table
       (let [new-table (update-table cur-c c item-idx items table)]
         (recur (inc cur-c) c item-idx items new-table))))
 
 (defn iter-one-item [c item-idx items table]
-  (let [cur-c 1]
+  (let [cur-c 0]
     (iter-one-item-aux cur-c c item-idx items table)))
 
 (defn iter-items-aux [c item-idx items table]
   (log-val "iter-items-aux" item-idx)
-  (if (> item-idx (count items)) table
+  (if (>= item-idx (count items)) table
       (let [new-table (iter-one-item c item-idx items table)]
         (recur c (inc item-idx) items new-table))))
 
 (defn iter-items [c items]
-  (let [item-idx 1
-        size (* c (count items))
-        table (vec (take size (repeat (int 0))))]
+  (let [item-idx 0
+        width (count items)
+        column (vec (take c (repeat (int 0))))
+        table (vec (take width (repeat column)))]
     (log-val "iter-items table filled")
     (iter-items-aux c item-idx items table)))
 

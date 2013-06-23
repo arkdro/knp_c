@@ -24,14 +24,14 @@
         (use-item cur-c c item-idx items acc))))
 
 (defn backtrack-aux [cur-c c item-idx items acc table]
-  (if (< item-idx 1) acc
+  (if (< item-idx 0) acc
       (let [[new-x new-y new-acc]
             (get-new-item cur-c c item-idx items acc table)]
         (recur new-y c new-x items new-acc table))))
 
 (defn backtrack [capacity items table]
-  (let [x (count items)
-        y capacity
+  (let [x (dec (count items))
+        y (dec capacity)
         acc (vec (take x (repeat 0)))]
     (backtrack-aux y capacity x items acc table)))
 
