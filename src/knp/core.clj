@@ -42,13 +42,20 @@
     {:n n-items :c capacity :items items}
     ))
 
+(defn call-calc [verbose data]
+  (if verbose
+    (time (knp.dim/calc data))
+    (knp.dim/calc data)))
+
 (defn -main [& args]
   (let [opts (cli
               args
+              ["-v" "--[no-]verbose" :default false]
               ["-f" "--file" "input file"])
         [options _ _] opts
         _ (println "options:" options)
         data (get-data (:file options))
-        res (knp.dim/calc data)]
+        res (call-calc (:verbose options) data)
+        ]
     (println "res:" res)))
 
