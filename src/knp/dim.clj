@@ -53,9 +53,9 @@
     (not (> wei c))))
 
 (defn update-table [cur-c c item-idx items table]
-  (if (use-item item-idx c items)
+  (if (use-item item-idx cur-c items)
     (choose-and-set-items cur-c c item-idx items table)
-    table))
+    (copy-prev-val cur-c item-idx c table)))
 
 (defn iter-one-item-aux [cur-c c item-idx items table]
   (if (> cur-c c) table
