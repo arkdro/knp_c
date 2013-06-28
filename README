@@ -1,6 +1,7 @@
 # knp
 
-accumulator is: 2 columns to calc, big table to backtrack
+accumulator is: 2 columns to calc,
+no backtracking yet
 
 ## Usage
 
