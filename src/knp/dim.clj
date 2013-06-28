@@ -80,15 +80,17 @@
              capacity :c
              items :items
              :as data}]
-  (let [opt (knp.opt/get-optimum capacity items)
-        _ (log-val "opt" (float opt))
+  (let [[opt-int opt-max] (knp.opt/get-optimum capacity items)
+        _ (log-val "opt-int" (float opt-int))
+        _ (log-val "opt-max" (float opt-max))
         ;; table (profile :info :Arithmetic (iter-items capacity items))
         table (iter-items capacity items)
         _ (log-val "table done")
         used-items (knp.backtrack/backtrack capacity items table)
         _ (log-val "backtrack done")
         ]
-    {:opt (float opt)
+    {:opt-max (float opt-max)
+     :opt-int opt-int
      :val (get-max-value n-items capacity table)
      :used-items used-items})
   )

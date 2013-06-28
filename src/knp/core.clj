@@ -49,8 +49,8 @@
       (time (knp.dim/calc data)))
     (knp.dim/calc data)))
 
-(defn print-result [{:keys [opt val used-items]}]
-  (if (= opt val) (println val "1")
+(defn print-result [{:keys [opt-int val used-items]}]
+  (if (= opt-int val) (println val "1")
       (println val "0"))
   (let [])
   (doseq [x used-items]
