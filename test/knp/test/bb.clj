@@ -20,3 +20,13 @@
   (is (= {:val 4 :solution 4} (knp.bb/make-solution {:val 4 :solution 1})))
   )
 
+(deftest calc-estimate-use-test
+  (let [items [[1 2] [2 1] [4 5] [6 3]]]
+    (is (= {:val 11 :room 0}
+           (knp.bb/calc-estimate-use 3 items {:val 5 :room 3})))
+    (is (= {:val 9 :room -2}
+           (knp.bb/calc-estimate-use 2 items {:val 5 :room 3})))
+    (is (= {:val 7 :room 2}
+           (knp.bb/calc-estimate-use 1 items {:val 5 :room 3})))
+    ))
+
