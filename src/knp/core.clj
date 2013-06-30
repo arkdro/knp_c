@@ -43,11 +43,13 @@
     {:n n-items :c capacity :items items}
     ))
 
-(defn call-calc [verbose data]
-  (if verbose
-    (binding [*out* *err* knp.misc/*verbose* 'true]
-      (time (knp.dim/calc data)))
-    (knp.dim/calc data)))
+(defn call-calc [verbose type data]
+  (let [calc-fun (cond (= type 1) knp.bb/calc
+                       :default knp.dim/calc)]
+    (if verbose
+      (binding [*out* *err* knp.misc/*verbose* 'true]
+        (time (calc-fun data)))
+      (calc-fun data))))
 
 (defn print-result [{:keys [opt-int val used-items]}]
   (if (= opt-int val) (println val "1")
@@ -61,10 +63,15 @@
   (let [opts (cli
               args
               ["-v" "--[no-]verbose" :default false]
+              ["-t" "--type"
+               "solution type (0 - DP, 1 - BB, default - defined by size)"]
               ["-f" "--file" "input file"])
         [options _ _] opts
         data (get-data (:file options))
-        res (call-calc (:verbose options) data)
+        res (call-calc
+             (:verbose options)
+             (:type options)
+             data)
         ]
     (print-result res)))
 
