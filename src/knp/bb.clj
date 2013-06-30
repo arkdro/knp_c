@@ -28,7 +28,6 @@
 (defn calc-estimate-no-use [item-idx
                             items
                             {estim-val :estim-val
-                             room :room
                              :as acc}]
   (let [[item-val item-wei] (get items item-idx)
         new-estim-val (- estim-val item-val)]
