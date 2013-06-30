@@ -30,3 +30,13 @@
            (knp.bb/calc-estimate-use 1 items {:val 5 :room 3})))
     ))
 
+(deftest calc-estimate-no-use-test
+  (let [items [[1 2] [2 1] [4 5] [6 3]]]
+    (is (= {:estim-val 9}
+           (knp.bb/calc-estimate-no-use 3 items {:estim-val 15})))
+    (is (= {:estim-val 11}
+           (knp.bb/calc-estimate-no-use 2 items {:estim-val 15})))
+    (is (= {:estim-val 13}
+           (knp.bb/calc-estimate-no-use 1 items {:estim-val 15})))
+    ))
+
