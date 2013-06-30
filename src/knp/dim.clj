@@ -1,12 +1,16 @@
 (ns knp.dim
   (:use [taoensso.timbre.profiling :as profiling :refer (p profile)])
   (:require knp.backtrack)
+  (:require knp.bb)
   (:require knp.opt)
   (:require knp.misc)
   (:require knp.point)
   )
 
 (set! *warn-on-reflection* true)
+
+;; when JVM starts doing GC instead of calculation
+(def limit 100000000)
 
 (defn log-val [tag & val]
   (if-not knp.misc/*verbose* nil
@@ -76,7 +80,7 @@
   (knp.point/get-point (dec n-items) (dec capacity) capacity table))
 
 ;; {:n n-items :c capacity :items items}
-(defn calc [{n-items :n
+(defn calc-dp [{n-items :n
              capacity :c
              items :items
              :as data}]
@@ -93,5 +97,16 @@
      :opt-int opt-int
      :val (get-max-value n-items capacity table)
      :used-items used-items})
+  )
+
+(defn calc [{n-items :n
+             capacity :c
+             :as data}]
+  (let [total (* n-items capacity)]
+    (if (> total limit)
+      (knp.bb/calc data)
+      (calc-dp data)
+      )
+    )
   )
 
