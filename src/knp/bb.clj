@@ -10,9 +10,10 @@
 (defn make-solution [{val :val
                       solution :solution
                       :as acc}]
-  (if (> solution val)
-    (assoc acc :val solution)
-    acc))
+  (cond
+    (nil? solution)(assoc acc :solution val)
+    (> val solution) (assoc acc :solution val)
+    :default acc))
 
 (defn calc-estimate-use [item-idx
                          items
