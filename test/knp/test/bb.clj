@@ -40,3 +40,14 @@
            (knp.bb/calc-estimate-no-use 1 items {:estim-val 15})))
     ))
 
+(deftest feasible-and-fruitful-test
+  (is (= false
+         (knp.bb/feasible-and-fruitful {:room -2 :estim-val 5} {})))
+  (is (= true
+         (knp.bb/feasible-and-fruitful {:room 3 :estim-val 5} {})))
+  (is (= false
+         (knp.bb/feasible-and-fruitful {:room 3 :estim-val 5} {:solution 5})))
+  (is (= true
+         (knp.bb/feasible-and-fruitful {:room 3 :estim-val 7} {:solution 5})))
+  )
+
