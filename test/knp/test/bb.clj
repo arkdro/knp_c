@@ -4,8 +4,7 @@
   (:require [knp.bb])
   )
 
-;; (trace-ns 'knp.dim)
-;; (trace-ns 'knp.point)
+;; (trace-ns 'knp.bb)
 
 (deftest no-more-items-test
   (is (= true (knp.bb/no-more-items 5 [1 3 5 7])))
