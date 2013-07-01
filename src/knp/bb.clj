@@ -56,11 +56,7 @@
                                         :used-items used-items)
         :default dst))
 
-(defn choose [item-idx items {val :val
-                              room :room
-                              estim-val :estim-val
-                              ;; best found sum of values so far
-                              solution :solution
+(defn choose [item-idx items {room :room
                               :as acc}]
   (assert (>= room 0) ["room is smaller than 0", room])
   (cond
