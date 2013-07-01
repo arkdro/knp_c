@@ -43,6 +43,19 @@
         (> estim-val solution) 'true
         :default 'false))
 
+(defn copy-solution [{src-solution :solution
+                      used-items :used-items}
+                     {dst-solution :solution
+                      :as dst}]
+  (cond (nil? src-solution) dst
+        (nil? dst-solution) (assoc dst
+                              :solution src-solution
+                              :used-items used-items)
+        (> src-solution dst-solution) (assoc dst
+                                        :solution src-solution
+                                        :used-items used-items)
+        :default dst))
+
 (defn choose [item-idx items {val :val
                               room :room
                               estim-val :estim-val
@@ -58,7 +71,8 @@
                              (choose (inc item-idx) items use-estim)
                              acc
                              )
-                   no-use-estim (calc-estimate-no-use item-idx items acc)
+                   acc2 (copy-solution acc-use acc)
+                   no-use-estim (calc-estimate-no-use item-idx items acc2)
                    acc-no-use (if (feasible-and-fruitful no-use-estim acc-use)
                                 (choose (inc item-idx) items no-use-estim)
                                 acc-use
