@@ -112,3 +112,19 @@
         ]
     (is (= exp act))))
 
+(deftest choose-test-5
+  (let [item-idx 0
+        items [[45 5] [48 8] [35 3]]
+        acc {:val 0
+             :room 10
+             :estim-val 128
+             }
+        act (knp.bb/choose item-idx items acc)
+        exp {:val 80
+             :room 2
+             :estim-val 80
+             :solution 80
+             }
+        ]
+    (is (= exp act))))
+
