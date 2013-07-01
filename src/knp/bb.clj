@@ -9,10 +9,11 @@
 
 (defn make-solution [{val :val
                       solution :solution
-                      :as acc}]
+                      :as acc}
+                     used-items]
   (cond
-    (nil? solution)(assoc acc :solution val)
-    (> val solution) (assoc acc :solution val)
+    (nil? solution)(assoc acc :solution val :used-items used-items)
+    (> val solution) (assoc acc :solution val :used-items used-items)
     :default acc))
 
 (defn calc-estimate-use [item-idx
@@ -56,21 +57,23 @@
                                         :used-items used-items)
         :default dst))
 
-(defn choose [item-idx items {room :room
-                              :as acc}]
+(defn choose [item-idx
+              items
+              {room :room :as acc}
+              used-items]
   (assert (>= room 0) ["room is smaller than 0", room])
   (cond
-    (no-more-items item-idx items) (make-solution acc)
+    (no-more-items item-idx items) (make-solution acc used-items)
     :default (let [
                    use-estim (calc-estimate-use item-idx items acc)
                    acc-use (if (feasible-and-fruitful use-estim acc)
-                             (choose (inc item-idx) items use-estim)
+                             (choose (inc item-idx) items use-estim used-items)
                              acc
                              )
                    acc2 (copy-solution acc-use acc)
                    no-use-estim (calc-estimate-no-use item-idx items acc2)
                    acc-no-use (if (feasible-and-fruitful no-use-estim acc-use)
-                                (choose (inc item-idx) items no-use-estim)
+                                (choose (inc item-idx) items no-use-estim used-items)
                                 acc-use
                                 )
                    ]
