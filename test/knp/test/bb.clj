@@ -120,10 +120,11 @@
              :estim-val 128
              }
         act (knp.bb/choose item-idx items acc)
-        exp {:val 80
+        exp {:val 48
              :room 2
-             :estim-val 80
+             :estim-val 83
              :solution 80
+             :used-items nil
              }
         ]
     (is (= exp act))))
