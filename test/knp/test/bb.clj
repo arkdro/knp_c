@@ -63,11 +63,11 @@
         acc {:val 11
              :room 2
              :estim-val 4}
-        act (knp.bb/choose item-idx items acc [])
+        act (knp.bb/choose item-idx items acc [0 0 0 0])
         exp {:val 11
              :room 2
              :estim-val 4
-             :used-items []
+             :used-items [0 0 0 0]
              :solution 11}]
     (is (= exp act))))
 
@@ -77,14 +77,15 @@
         acc {:val 11
              :room 2
              :estim-val 4}
-        act (knp.bb/choose item-idx items acc [])
+        act (knp.bb/choose item-idx items acc [0 0 0 0])
         exp {:val 11
              :room 2
              :estim-val 4
+             :used-items [0 0 0 0]
              :solution 11}]
     (is (= exp act))))
 
-(deftest choose-test-3
+(deftest choose-test-3b
   (let [item-idx 3
         items [[1 2] [2 1] [4 5] [6 3]]
         acc {:val 11
@@ -92,7 +93,7 @@
              :estim-val 14
              :solution 10
              }
-        act (knp.bb/choose item-idx items acc [])
+        act (knp.bb/choose item-idx items acc [0 0 0])
         exp {:val 11
              :room 2
              :estim-val 14
@@ -108,12 +109,12 @@
              :room 6
              :estim-val 13
              }
-        act (knp.bb/choose item-idx items acc [])
+        act (knp.bb/choose item-idx items acc [0 0])
         exp {:val 9
              :room 1
              :estim-val 7
              :solution 9
-             :used-items []
+             :used-items [0 0 1 0]
              }
         ]
     (is (= exp act))))
@@ -130,7 +131,7 @@
              :room 2
              :estim-val 83
              :solution 80
-             :used-items []
+             :used-items [1 0 1]
              }
         ]
     (is (= exp act))))
@@ -147,7 +148,7 @@
              :room 0
              :estim-val 83
              :solution 83
-             :used-items []
+             :used-items [0 1 1]
              }
         ]
     (is (= exp act))))
