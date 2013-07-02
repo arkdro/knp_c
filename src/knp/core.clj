@@ -64,7 +64,8 @@
               args
               ["-v" "--[no-]verbose" :default false]
               ["-t" "--type"
-               "solution type (0 - DP, 1 - BB, default - defined by size)"]
+               "solution type (0 - DP, 1 - BB, default - defined by size)"
+               :parse-fn #(Integer. %)]
               ["-f" "--file" "input file"])
         [options _ _] opts
         data (get-data (:file options))
