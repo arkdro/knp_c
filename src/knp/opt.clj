@@ -25,6 +25,6 @@
 
 (defn get-optimum [c items]
   (let [sorted (reverse (sort-by get-density items))]
-    (knp.misc/log-val "sorted" sorted)
+    ;; (knp.misc/log-val "sorted" sorted)
     (accumulate 0 c sorted)))
 
