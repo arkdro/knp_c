@@ -36,12 +36,15 @@
         new-estim-val (- estim-val item-val)]
     (assoc acc :estim-val new-estim-val)))
 
-(defn feasible-and-fruitful [{room :room
+(defn is-enough-room [{room :room}]
+  (>= room 0))
+
+(defn fruitful [{
                               estim-val :estim-val
                               :as estim-acc}
                              {solution :solution
                               :as acc}]
-  (cond (< room 0) 'false
+  (cond
         (nil? solution) 'true
         (> estim-val solution) 'true
         :default 'false))
@@ -68,7 +71,7 @@
     (no-more-items item-idx items) (make-solution acc used-items)
     :default (let [
                    use-estim (calc-estimate-use item-idx items acc)
-                   acc-use (if (feasible-and-fruitful use-estim acc)
+                   acc-use (if (is-enough-room use-estim)
                              (choose-aux (inc item-idx)
                                          items
                                          use-estim
@@ -77,7 +80,7 @@
                              )
                    acc2 (copy-solution acc-use acc)
                    no-use-estim (calc-estimate-no-use item-idx items acc2)
-                   acc-no-use (if (feasible-and-fruitful no-use-estim acc-use)
+                   acc-no-use (if (fruitful no-use-estim acc-use)
                                 (choose-aux (inc item-idx)
                                             items
                                             no-use-estim
