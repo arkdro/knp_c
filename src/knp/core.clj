@@ -9,6 +9,7 @@
   )
 
 ;; (trace-ns 'knp.dim)
+;; (trace-ns 'knp.bb)
 
 (def regex #"(\d+)\s+(\d+)")
 
