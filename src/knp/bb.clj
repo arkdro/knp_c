@@ -67,13 +67,19 @@
     :default (let [
                    use-estim (calc-estimate-use item-idx items acc)
                    acc-use (if (feasible-and-fruitful use-estim acc)
-                             (choose (inc item-idx) items use-estim used-items)
+                             (choose (inc item-idx)
+                                     items
+                                     use-estim
+                                     (assoc used-items item-idx 1))
                              acc
                              )
                    acc2 (copy-solution acc-use acc)
                    no-use-estim (calc-estimate-no-use item-idx items acc2)
                    acc-no-use (if (feasible-and-fruitful no-use-estim acc-use)
-                                (choose (inc item-idx) items no-use-estim used-items)
+                                (choose (inc item-idx)
+                                        items
+                                        no-use-estim
+                                        (assoc used-items item-idx 0))
                                 acc-use
                                 )
                    ]
