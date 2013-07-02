@@ -4,6 +4,8 @@
   (:require knp.opt)
   )
 
+(set! *warn-on-reflection* true)
+
 (defn no-more-items [item-idx items]
   (p :no-more-items
   (>= item-idx (count items)))
