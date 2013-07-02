@@ -1,5 +1,6 @@
 (ns knp.core
   {:doc "knapsack"}
+  (:use [taoensso.timbre.profiling :as profiling :refer (p profile)])
   (:use [clojure.tools.cli :only [cli]])
   (:require clojure.string)
   (:use clojure.tools.trace)
@@ -45,13 +46,19 @@
     {:n n-items :c capacity :items items}
     ))
 
-(defn call-calc [verbose type data]
+(defn call-calc-2 [verbose type data]
   (let [calc-fun (cond (= type 1) knp.bb/calc
                        :default knp.dim/calc)]
     (if verbose
       (binding [*out* *err* knp.misc/*verbose* 'true]
         (time (calc-fun data)))
       (calc-fun data))))
+
+(defn call-calc [profile-flag & rest]
+  (let [calc-fun call-calc-2]
+    (if profile-flag
+      (profile :info :Arithmetic (apply calc-fun rest))
+      (apply calc-fun rest))))
 
 (defn print-result [{:keys [opt-dp val used-items] :or {opt-dp -1}}]
   (if (= opt-dp val) (println val "1")
@@ -65,6 +72,7 @@
   (let [opts (cli
               args
               ["-v" "--[no-]verbose" :default false]
+              ["-p" "--[no-]profile" :default false]
               ["-c" "--[no-]check" :default true]
               ["-t" "--type"
                "solution type (0 - DP, 1 - BB, default - defined by size)"
@@ -73,6 +81,7 @@
         [options _ _] opts
         data (get-data (:file options))
         res (call-calc
+             (:profile options)
              (:verbose options)
              (:type options)
              data)
