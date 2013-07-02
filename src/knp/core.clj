@@ -3,6 +3,7 @@
   (:use [clojure.tools.cli :only [cli]])
   (:require clojure.string)
   (:use clojure.tools.trace)
+  (:require knp.check)
   (:require knp.dim)
   (:require knp.misc)
   (:gen-class)
@@ -64,6 +65,7 @@
   (let [opts (cli
               args
               ["-v" "--[no-]verbose" :default false]
+              ["-c" "--[no-]check" :default true]
               ["-t" "--type"
                "solution type (0 - DP, 1 - BB, default - defined by size)"
                :parse-fn #(Integer. %)]
@@ -75,5 +77,6 @@
              (:type options)
              data)
         ]
+    (knp.check/check-solution (:check options) data res)
     (print-result res)))
 
