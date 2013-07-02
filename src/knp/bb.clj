@@ -87,6 +87,13 @@
     )
   )
 
+(defn choose [capacity items]
+  (let [{solution :solution
+         used-items :used-items} (choose-aux 0 items {:room capacity} [])
+         ]
+    [solution used-items])
+  )
+
 (defn calc [{n-items :n
              capacity :c
              items :items
