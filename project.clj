@@ -1,6 +1,10 @@
 (defproject knp "1.0.0-SNAPSHOT"
   :description "FIXME: write description"
   :jvm-opts ["-Xmx2500m"]
+  ;; :global-vars {
+  ;;   *warn-on-reflection* true
+  ;;   ;;*assert* false
+  ;;   }
   :main knp.core
   :dependencies [
     [org.clojure/clojure "1.3.0"]
