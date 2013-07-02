@@ -153,3 +153,11 @@
         ]
     (is (= exp act))))
 
+(deftest choose-aux-test-7
+  (let [capacity 11
+        items [[8 4] [10 5] [15 8] [4 3]]
+        act (knp.bb/choose capacity items)
+        exp [19 [0 0 1 1]]
+        ]
+    (is (= exp act))))
+
