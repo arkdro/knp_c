@@ -89,7 +89,12 @@
 
 (defn choose [capacity items]
   (let [{solution :solution
-         used-items :used-items} (choose-aux 0 items {:room capacity} [])
+         used-items :used-items} (choose-aux 0
+                                             items
+                                             {:val 0
+                                              :room capacity
+                                              :estim-val capacity}
+                                             [])
          ]
     [solution used-items])
   )
@@ -101,6 +106,12 @@
   (let [[opt-int opt-max] (knp.opt/get-optimum capacity items)
         _ (log-val "opt-int" (float opt-int))
         _ (log-val "opt-max" (float opt-max))
-        ])
+        [solution used-items] (choose capacity items)
+        ]
+    (log-val "solution" solution)
+    (log-val "used items" used-items)
+    {:opt-int opt-int
+     :val solution
+     :used-items used-items})
   )
 
