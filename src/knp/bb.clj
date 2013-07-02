@@ -88,12 +88,13 @@
   )
 
 (defn choose [capacity items]
-  (let [{solution :solution
+  (let [max-estim (reduce #(+ %1 (first %2)) 0 items)
+        {solution :solution
          used-items :used-items} (choose-aux 0
                                              items
                                              {:val 0
                                               :room capacity
-                                              :estim-val capacity}
+                                              :estim-val max-estim}
                                              [])
          ]
     [solution used-items])
