@@ -54,16 +54,16 @@
          (knp.bb/feasible-and-fruitful {:room 3 :estim-val 7} {:solution 5})))
   )
 
-(deftest choose-test-1
-  (is (thrown? AssertionError (knp.bb/choose 0 [] {:room -1} []))))
+(deftest choose-aux-test-1
+  (is (thrown? AssertionError (knp.bb/choose-aux 0 [] {:room -1} []))))
 
-(deftest choose-test-2
+(deftest choose-aux-test-2
   (let [item-idx 4
         items [[1 2] [2 1] [4 5] [6 3]]
         acc {:val 11
              :room 2
              :estim-val 4}
-        act (knp.bb/choose item-idx items acc [0 0 0 0])
+        act (knp.bb/choose-aux item-idx items acc [0 0 0 0])
         exp {:val 11
              :room 2
              :estim-val 4
@@ -71,13 +71,13 @@
              :solution 11}]
     (is (= exp act))))
 
-(deftest choose-test-3
+(deftest choose-aux-test-3
   (let [item-idx 4
         items [[1 2] [2 1] [4 5] [6 3]]
         acc {:val 11
              :room 2
              :estim-val 4}
-        act (knp.bb/choose item-idx items acc [0 0 0 0])
+        act (knp.bb/choose-aux item-idx items acc [0 0 0 0])
         exp {:val 11
              :room 2
              :estim-val 4
@@ -85,7 +85,7 @@
              :solution 11}]
     (is (= exp act))))
 
-(deftest choose-test-3b
+(deftest choose-aux-test-3b
   (let [item-idx 3
         items [[1 2] [2 1] [4 5] [6 3]]
         acc {:val 11
@@ -93,7 +93,7 @@
              :estim-val 14
              :solution 10
              }
-        act (knp.bb/choose item-idx items acc [0 0 0])
+        act (knp.bb/choose-aux item-idx items acc [0 0 0])
         exp {:val 11
              :room 2
              :estim-val 14
@@ -102,14 +102,14 @@
         ]
     (is (= exp act))))
 
-(deftest choose-test-4
+(deftest choose-aux-test-4
   (let [item-idx 2
         items [[1 2] [2 1] [4 5] [6 3]]
         acc {:val 5
              :room 6
              :estim-val 13
              }
-        act (knp.bb/choose item-idx items acc [0 0])
+        act (knp.bb/choose-aux item-idx items acc [0 0])
         exp {:val 9
              :room 1
              :estim-val 7
@@ -119,14 +119,14 @@
         ]
     (is (= exp act))))
 
-(deftest choose-test-5
+(deftest choose-aux-test-5
   (let [item-idx 0
         items [[45 5] [48 8] [35 3]]
         acc {:val 0
              :room 10
              :estim-val 128
              }
-        act (knp.bb/choose item-idx items acc [])
+        act (knp.bb/choose-aux item-idx items acc [])
         exp {:val 48
              :room 2
              :estim-val 83
@@ -136,14 +136,14 @@
         ]
     (is (= exp act))))
 
-(deftest choose-test-6
+(deftest choose-aux-test-6
   (let [item-idx 0
         items [[45 5] [48 8] [35 2]]
         acc {:val 0
              :room 10
              :estim-val 128
              }
-        act (knp.bb/choose item-idx items acc [])
+        act (knp.bb/choose-aux item-idx items acc [])
         exp {:val 83
              :room 0
              :estim-val 83
