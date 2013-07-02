@@ -11,6 +11,8 @@
 
 ;; (trace-ns 'knp.dim)
 ;; (trace-ns 'knp.bb)
+;; (trace-vars knp.bb/choose-aux)
+;; (trace-vars knp.bb/feasible-and-fruitful)
 
 (def regex #"(\d+)\s+(\d+)")
 
