@@ -52,8 +52,8 @@
         (time (calc-fun data)))
       (calc-fun data))))
 
-(defn print-result [{:keys [opt-int val used-items]}]
-  (if (= opt-int val) (println val "1")
+(defn print-result [{:keys [opt-dp val used-items] :or {opt-dp -1}}]
+  (if (= opt-dp val) (println val "1")
       (println val "0"))
   (let [])
   (doseq [x used-items]
