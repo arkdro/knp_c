@@ -44,14 +44,12 @@
     ))
 
 (deftest feasible-and-fruitful-test
-  (is (= false
-         (knp.bb/feasible-and-fruitful {:room -2 :estim-val 5} {})))
   (is (= true
-         (knp.bb/feasible-and-fruitful {:room 3 :estim-val 5} {})))
+         (knp.bb/fruitful {:estim-val 5} {})))
   (is (= false
-         (knp.bb/feasible-and-fruitful {:room 3 :estim-val 5} {:solution 5})))
+         (knp.bb/fruitful {:estim-val 5} {:solution 5})))
   (is (= true
-         (knp.bb/feasible-and-fruitful {:room 3 :estim-val 7} {:solution 5})))
+         (knp.bb/fruitful {:estim-val 7} {:solution 5})))
   )
 
 (deftest choose-aux-test-1
@@ -153,7 +151,7 @@
         ]
     (is (= exp act))))
 
-(deftest choose-aux-test-7
+(deftest choose-test-1
   (let [capacity 11
         items [[8 4] [10 5] [15 8] [4 3]]
         act (knp.bb/choose capacity items)
