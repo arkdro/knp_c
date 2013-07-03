@@ -23,6 +23,10 @@
                        (let [[new-acc new-c] (add-whole acc c item)]
                          (recur new-acc new-c rest))))))
 
+(defn sort-items [items]
+  (sort-by get-density items)
+  )
+
 (defn get-optimum [c items]
   (let [sorted (reverse (sort-by get-density items))]
     ;; (knp.misc/log-val "sorted" sorted)

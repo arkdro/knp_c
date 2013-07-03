@@ -105,9 +105,10 @@
 
 (defn choose [capacity items]
   (let [max-estim (reduce #(+ %1 (first %2)) 0 items)
+        sorted-items (into [] (knp.opt/sort-items items))
         {solution :solution
          used-items :used-items} (choose-aux 0
-                                             items
+                                             sorted-items
                                              {:val 0
                                               :room capacity
                                               :estim-val max-estim}
