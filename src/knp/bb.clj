@@ -10,21 +10,31 @@
   (>= item-idx (count items)))
 
 (defn make-solution [val
+                     room
+                     estim
                      solution
-                     used-items
                      solution-items
-                     ]
-  ;; [
-  ;;  val
-  ;;  room
-  ;;  estim
-  ;;  res-val
-  ;;  res-items
-  ;;  ]
+                     used-items]
   (cond
-    (nil? solution) [val used-items]
-    (> val solution) [val used-items]
-    :default [solution solution-items]))
+    (nil? solution) [val
+                     room
+                     estim
+                     val
+                     used-items
+                     ]
+    (> val solution) [val
+                      room
+                      estim
+                      val
+                      used-items
+                      ]
+    :default [val
+              room
+              estim
+              solution
+              solution-items
+              ]
+    ))
 
 (defn calc-estimate-use [item-idx
                          items
@@ -73,20 +83,16 @@
                   used-items]
   (assert (>= room 0) ["room is smaller than 0", room])
   (cond
-    (no-more-items item-idx items) (let [[res-val res-items]
-                                         (make-solution val
-                                                        solution
-                                                        used-items
-                                                        solution-items)
-                                         ]
-                                     [
-                                      val
-                                      room
-                                      estim
-                                      res-val
-                                      res-items
-                                      ]
-                                     )
+    (no-more-items item-idx items)
+    (make-solution
+                  val
+                  room
+                  estim
+                  solution
+                  solution-items
+                  used-items
+     )
+
     :default (let [
                    ;; use-estim (calc-estimate-use item-idx items acc)
                    [use-val-estim use-room-estim] (calc-estimate-use
