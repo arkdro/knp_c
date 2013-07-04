@@ -13,10 +13,14 @@
   )
 
 (deftest make-solution-test
-  (is (= [3 []] (knp.bb/make-solution 3 nil [] nil)))
-  (is (= [6 [1 0 1]] (knp.bb/make-solution 5 6 [1] [1 0 1])))
-  (is (= [2 nil] (knp.bb/make-solution 2 2 [] nil)))
-  (is (= [4 [1 1]] (knp.bb/make-solution 4 1 [1 1] [1])))
+  (is (= [3 2 14 3 []]
+         (knp.bb/make-solution 3 2 14 nil nil [])))
+  (is (= [5 2 14 6 [1 0 1]]
+         (knp.bb/make-solution 5 2 14 6 [1 0 1] [1])))
+  (is (= [2 1 14 2 nil]
+         (knp.bb/make-solution 2 1 14 2 nil [])))
+  (is (= [4 2 14 4 [1 1]]
+         (knp.bb/make-solution 4 2 14 1 [1] [1 1])))
   )
 
 (deftest calc-estimate-use-test
