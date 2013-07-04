@@ -9,83 +9,130 @@
 (defn no-more-items [item-idx items]
   (>= item-idx (count items)))
 
-(defn make-solution [{val :val
-                      solution :solution
-                      :as acc}
-                     used-items]
+(defn make-solution [val
+                     solution
+                     used-items
+                     solution-items
+                     ]
+  ;; [
+  ;;  val
+  ;;  room
+  ;;  estim
+  ;;  res-val
+  ;;  res-items
+  ;;  ]
   (cond
-    (nil? solution)(assoc acc :solution val :used-items used-items)
-    (> val solution) (assoc acc :solution val :used-items used-items)
-    :default acc))
+    (nil? solution) [val used-items]
+    (> val solution) [val used-items]
+    :default [solution solution-items]))
 
 (defn calc-estimate-use [item-idx
                          items
-                         {val :val
-                          room :room
-                          :as acc}]
+                         val
+                         room
+                         ]
   (let [[item-val item-wei] (get items item-idx)
         new-val (+ val item-val)
         new-room (- room item-wei)]
-    (assoc acc :val new-val :room new-room)))
+    [new-val new-room]))
 
 (defn calc-estimate-no-use [item-idx
                             items
-                            {estim-val :estim-val
-                             :as acc}]
+                            estim-val
+                            ]
   (let [[item-val item-wei] (get items item-idx)
         new-estim-val (- estim-val item-val)]
-    (assoc acc :estim-val new-estim-val)))
+    new-estim-val))
 
-(defn is-enough-room [{room :room}]
+(defn is-enough-room [room]
   (>= room 0))
 
-(defn fruitful [{
-                              estim-val :estim-val
-                              :as estim-acc}
-                             {solution :solution
-                              :as acc}]
+(defn fruitful [
+                estim-val
+                solution
+                ]
   (cond
         (nil? solution) 'true
         (> estim-val solution) 'true
         :default 'false))
 
-(defn copy-solution [{src-solution :solution
-                      used-items :used-items}
-                     {dst-solution :solution
-                      :as dst}]
-  (cond (nil? src-solution) dst
-        (nil? dst-solution) (assoc dst
-                              :solution src-solution
-                              :used-items used-items)
-        (> src-solution dst-solution) (assoc dst
-                                        :solution src-solution
-                                        :used-items used-items)
-        :default dst))
+(defn copy-solution [new-solution prev-solution
+                     new-used-items prev-used-items]
+  (cond (nil? new-solution) [prev-solution prev-used-items]
+        (nil? prev-solution) [new-solution new-used-items]
+        (> new-solution prev-solution) [new-solution new-used-items]
+        :default [prev-solution prev-used-items]))
 
 (defn choose-aux [item-idx
                   items
-                  {room :room :as acc}
+                  val
+                  room
+                  estim
+                  solution
+                  solution-items
                   used-items]
   (assert (>= room 0) ["room is smaller than 0", room])
   (cond
-    (no-more-items item-idx items) (make-solution acc used-items)
+    (no-more-items item-idx items) (let [[res-val res-items]
+                                         (make-solution val
+                                                        solution
+                                                        used-items
+                                                        solution-items)
+                                         ]
+                                     [
+                                      val
+                                      room
+                                      estim
+                                      res-val
+                                      res-items
+                                      ]
+                                     )
     :default (let [
-                   use-estim (calc-estimate-use item-idx items acc)
-                   acc-use (if (is-enough-room use-estim)
-                             (choose-aux (inc item-idx)
-                                         items
-                                         use-estim
-                                         (assoc used-items item-idx 1))
-                             acc
-                             )
-                   acc2 (copy-solution acc-use acc)
-                   no-use-estim (calc-estimate-no-use item-idx items acc2)
-                   acc-no-use (if (fruitful no-use-estim acc-use)
+                   ;; use-estim (calc-estimate-use item-idx items acc)
+                   [use-val-estim use-room-estim] (calc-estimate-use
+                                                   item-idx items
+                                                   val room)
+                   [val-use
+                    room-use
+                    estim-use
+                    solution-use
+                    solution-items-use
+                    ] (if (is-enough-room use-room-estim)
+                               (choose-aux (inc item-idx)
+                                           items
+                                           use-val-estim
+                                           use-room-estim
+                                           estim
+                                           solution
+                                           solution-items
+                                           (assoc used-items item-idx 1))
+                               [val
+                                room
+                                estim
+                                solution
+                                solution-items
+                                ]
+                               )
+                   [solution2 solution-items2] (copy-solution
+                                                solution-use solution
+                                                solution-items-use solution-items)
+                   no-use-estim (calc-estimate-no-use item-idx items estim)
+                   acc-no-use
+                   (if (fruitful no-use-estim solution-use)
                                 (choose-aux (inc item-idx)
                                             items
+                                            val
+                                            room
                                             no-use-estim
+                                            solution2
+                                            solution-items2
                                             (assoc used-items item-idx 0))
-                                acc-use
+                                [val-use
+                                 room-use
+                                 estim-use
+                                 solution2
+                                 solution-items2
+                                 ]
                                 )
                    ]
                acc-no-use)
@@ -95,12 +142,20 @@
 (defn choose [capacity items]
   (let [max-estim (reduce #(+ %1 (first %2)) 0 items)
         sorted-items (into [] (knp.opt/sort-items items))
-        {solution :solution
-         used-items :used-items} (choose-aux 0
+        [
+         _val
+         _room
+         _estim
+         solution
+         used-items
+         ]
+        (choose-aux 0
                                              sorted-items
-                                             {:val 0
-                                              :room capacity
-                                              :estim-val max-estim}
+                                             0 ;; val
+                                             capacity ;; room
+                                             max-estim ;; estim val
+                                             0 ;; solution
+                                             [] ;; solution items
                                              [])
          ]
     [solution used-items])
