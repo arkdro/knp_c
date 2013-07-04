@@ -5,6 +5,9 @@
 (defn get-density [[val wei]]
   (/ val wei))
 
+(defn get-weight [[_val wei]]
+  wei)
+
 (defn add-fraction [acc c [val wei]]
   (let [ratio (/ c wei)
         val-part (* val ratio)]
@@ -24,7 +27,7 @@
                          (recur new-acc new-c rest))))))
 
 (defn sort-items [items]
-  (sort-by get-density items)
+  (reverse (sort-by get-weight items))
   )
 
 (defn get-optimum [c items]
