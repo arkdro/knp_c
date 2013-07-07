@@ -30,7 +30,7 @@
                          (recur new-acc new-c rest))))))
 
 (defn sort-items [items]
-  (reverse (sort-by get-weight items))
+  (reverse (sort-by get-density items))
   )
 
 (defn get-optimum [c items]
