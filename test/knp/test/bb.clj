@@ -120,3 +120,14 @@
         ]
     (is (= exp act))))
 
+(deftest calc-relaxed-estim-test
+  (let [
+        estim 11
+        capacity 10
+        item-idx 1
+        items [[45 5] [35 3] [48 8]]
+        act (knp.bb/calc-relaxed-estim estim capacity item-idx items)
+        exp 88
+        ]
+    (is (= exp act))))
+
