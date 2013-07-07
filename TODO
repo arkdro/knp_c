@@ -1,0 +1,6 @@
+- send parameters as a flat vector, do not use map as an accumulator. DONE
+- send only needed parameters, store result that matters in a global var
+- inline simple functions
+- do calculation only when needed (see calc-estimate-use: new-value
+  calculation and later room check)
+- keep solution in external store (atom)
