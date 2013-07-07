@@ -1,5 +1,5 @@
 /dat
-/dat2
+/dat[0-9]
 *~
 /pom.xml
 *jar
