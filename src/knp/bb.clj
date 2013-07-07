@@ -54,6 +54,29 @@
         new-estim-val (- estim-val item-val)]
     new-estim-val))
 
+(defn calc-relaxed-estim [
+                          estimate
+                          capacity
+                          item-idx
+                          items
+                          ]
+  ;; (println "est" estimate
+  ;;          "c" capacity
+  ;;          "idx" item-idx
+  ;;          "items" items
+  ;;          )
+  (if (>= item-idx (count items)) estimate
+      (let [[value wei] (nth items item-idx)]
+        ;; (println
+        ;;  "val" value
+        ;;  "wei" wei)
+        (if (> wei capacity) (knp.opt/add-fraction estimate capacity value wei)
+            (recur (+ estimate value) (- capacity wei) (inc item-idx) items)
+            )
+        )
+      )
+  )
+
 (defn is-enough-room [room]
   (>= room 0))
 
@@ -122,7 +145,9 @@
                    [solution2 solution-items2] (copy-solution
                                                 solution-use solution
                                                 solution-items-use solution-items)
-                   no-use-estim (calc-estimate-no-use item-idx items estim)
+                   ;; no-use-estim (calc-estimate-no-use item-idx items estim)
+                   ;; calc-relaxed-estim should be called with idx+1
+                   no-use-estim (calc-relaxed-estim val room item-idx items)
                    acc-no-use
                    (if (fruitful no-use-estim solution-use)
                                 (choose-aux (inc item-idx)
