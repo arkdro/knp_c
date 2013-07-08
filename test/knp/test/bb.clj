@@ -132,3 +132,30 @@
         ]
     (is (= exp act))))
 
+(deftest make-indexed-items-test
+  (let [
+        items [[45 5] [35 3] [48 8]]
+        act (knp.bb/make-indexed-items items)
+        exp {[45 5] 0
+             [35 3] 1
+             [48 8] 2
+             }
+        ]
+    (is (= exp act))))
+
+(deftest find-orig-used-items-test
+  (let [
+        orig-indexed-items {
+                            [35 3] 0
+                            [48 8] 1
+                            [45 5] 2
+                            }
+        sorted-items [[35 3] [45 5] [48 8]]
+        used-items [1 1 0]
+        act (knp.bb/find-orig-used-items orig-indexed-items
+                                         sorted-items
+                                         used-items)
+        exp [1 0 1]
+        ]
+    (is (= exp act))))
+
