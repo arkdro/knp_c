@@ -6,6 +6,16 @@
 
 (set! *warn-on-reflection* true)
 
+(defn add-item [acc [use-flag [val _wei]]]
+  (if (= use-flag 1) (+ acc val)
+      acc))
+
+(defn check-solution [items solution used-items]
+  (let [merged (map #(list %1 %2) used-items items)
+        sum-items (reduce add-item 0 merged)]
+    (if (= solution sum-items) :ok
+        sum-items)))
+
 (defn make-indexed-items-aux [idx acc [h & t]]
   (if (nil? h) acc
       (recur (inc idx) (assoc acc h idx) t)))
@@ -231,11 +241,19 @@
         _ (log-val "opt-int" (float opt-int))
         _ (log-val "opt-max" (float opt-max))
         [solution used-items] (choose capacity items)
+        check-res (check-solution items solution used-items)
         ]
     (log-val "solution" solution)
     (log-val "used items" used-items)
-    {:opt-int opt-int
-     :val solution
-     :used-items used-items})
+    (if (= check-res :ok) {:opt-int opt-int
+                           :val solution
+                           :used-items used-items}
+        (let [_ (binding [*out* *err*]
+                         (println
+                                  "solution wrong, solution:" solution
+                                  "sum:" check-res))]
+          {})
+        )
+    )
   )
 
