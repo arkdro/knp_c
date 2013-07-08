@@ -121,6 +121,14 @@
         ]
     (is (= exp act))))
 
+(deftest choose-test-2
+  (let [capacity 15
+        items [[8 4] [15 8] [4 3] [4 3]]
+        act (knp.bb/choose capacity items)
+        exp [27 [1 1 0 1]]
+        ]
+    (is (= exp act))))
+
 (deftest calc-relaxed-estim-test
   (let [
         estim 11
