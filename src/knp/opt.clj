@@ -9,9 +9,9 @@
   wei)
 
 (defn add-fraction [acc c val wei]
-  (let [ratio (/ c wei)
-        val-part (float (* val ratio))]
-    (+ acc val-part)))
+  (let [ratio (float (/ (float c) (float wei)))
+        val-part (float (* (float val) ratio))]
+    (float (+ acc val-part))))
 
 (defn join-acc-and-fraction [acc c [val wei]]
   [acc (add-fraction acc c val wei)])
