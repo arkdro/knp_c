@@ -159,3 +159,15 @@
         ]
     (is (= exp act))))
 
+(deftest add-item-test
+  (is (= 12 ( knp.bb/add-item 10 [1 [2 5]])))
+  (is (= 10 ( knp.bb/add-item 10 [0 [2 5]]))))
+
+(deftest check-solution-test
+  (let [
+        items [[45 5] [35 3] [48 8]]
+        used-items [1 1 0]
+        act (knp.bb/check-solution items 80 used-items)
+        ]
+    (is (= :ok act))))
+
