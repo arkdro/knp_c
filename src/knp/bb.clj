@@ -147,7 +147,7 @@
                                                 solution-items-use solution-items)
                    ;; no-use-estim (calc-estimate-no-use item-idx items estim)
                    ;; calc-relaxed-estim should be called with idx+1
-                   no-use-estim (calc-relaxed-estim val room item-idx items)
+                   no-use-estim (calc-relaxed-estim val room (inc item-idx) items)
                    acc-no-use
                    (if (fruitful no-use-estim solution-use)
                                 (choose-aux (inc item-idx)
