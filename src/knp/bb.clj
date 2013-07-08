@@ -6,6 +6,33 @@
 
 (set! *warn-on-reflection* true)
 
+(defn make-indexed-items-aux [idx acc [h & t]]
+  (if (nil? h) acc
+      (recur (inc idx) (assoc acc h idx) t)))
+
+(defn make-indexed-items [items]
+  (make-indexed-items-aux 0 {} items))
+
+(defn prepare-items [items]
+  (let [indexed-items (make-indexed-items items)
+        sorted-items (into [] (knp.opt/sort-items items))]
+    [sorted-items indexed-items]))
+
+(defn find-orig-used-items-aux [indexed-items
+                                [h-sorted & t-sorted]
+                                [h-used & t-used]
+                                acc]
+  (if (nil? h-sorted) acc
+      (let [index (get indexed-items h-sorted)
+            new-acc (assoc acc index h-used)]
+        (recur indexed-items t-sorted t-used new-acc))))
+
+(defn find-orig-used-items [indexed-items
+                            sorted-items
+                            used-items]
+  (let [acc (into [] (repeat (count sorted-items) 0))]
+    (find-orig-used-items-aux indexed-items sorted-items used-items acc)))
+
 (defn no-more-items [item-idx items]
   (>= item-idx (count items)))
 
@@ -172,7 +199,8 @@
 
 (defn choose [capacity items]
   (let [max-estim (reduce #(+ %1 (first %2)) 0 items)
-        sorted-items (into [] (knp.opt/sort-items items))
+        [sorted-items orig-indexed-items] (prepare-items items)
+        ;; _ (knp.misc/log-val "choose sorted items" sorted-items)
         [
          _val
          _room
@@ -188,8 +216,11 @@
                                              0 ;; solution
                                              [] ;; solution items
                                              [])
+        orig-used-items (find-orig-used-items orig-indexed-items
+                                              sorted-items
+                                              used-items)
          ]
-    [solution used-items])
+    [solution orig-used-items])
   )
 
 (defn calc [{n-items :n
