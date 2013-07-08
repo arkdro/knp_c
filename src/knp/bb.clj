@@ -18,7 +18,12 @@
 
 (defn make-indexed-items-aux [idx acc [h & t]]
   (if (nil? h) acc
-      (recur (inc idx) (assoc acc h idx) t)))
+      (let [prev-indexes (get acc h [])
+            new-indexes (cons idx prev-indexes)
+            ]
+      (recur (inc idx) (assoc acc h new-indexes) t)
+        )
+      ))
 
 (defn make-indexed-items [items]
   (make-indexed-items-aux 0 {} items))
@@ -33,9 +38,11 @@
                                 [h-used & t-used]
                                 acc]
   (if (nil? h-sorted) acc
-      (let [index (get indexed-items h-sorted)
-            new-acc (assoc acc index h-used)]
-        (recur indexed-items t-sorted t-used new-acc))))
+      (let [[index & new-indexes] (get indexed-items h-sorted)
+            new-acc (assoc acc index h-used)
+            upd-indexed-items (assoc indexed-items h-sorted new-indexes)
+            ]
+        (recur upd-indexed-items t-sorted t-used new-acc))))
 
 (defn find-orig-used-items [indexed-items
                             sorted-items
