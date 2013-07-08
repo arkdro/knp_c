@@ -76,7 +76,7 @@
         room 2
         estim 14
         act (knp.bb/choose-aux item-idx items val room estim 10 [1 0 1] [0 0 0])
-        exp [11 2 18.0 11 [0 0 0 0]]
+        exp [11 2 15.0 11 [0 0 0 0]]
         ]
     (is (= exp act))))
 
@@ -87,7 +87,7 @@
         room 6
         estim 13
         act (knp.bb/choose-aux item-idx items val room estim nil [] [0 0])
-        exp [5 6 25.0 11 [0 0 0 1]]
+        exp [11 3 11.0 11 [0 0 0 1]]
         ]
     (is (= exp act))))
 
@@ -128,7 +128,7 @@
         item-idx 1
         items [[45 5] [35 3] [48 8]]
         act (knp.bb/calc-relaxed-estim estim capacity item-idx items)
-        exp 88
+        exp 88.0
         ]
     (is (= exp act))))
 
